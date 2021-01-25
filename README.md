@@ -1,9 +1,8 @@
 # d8sychain/docker-elasticsearch
-## Installation
 **This Elasticsearch docker version is built from the official Elasticsearch docker with minimal changes tailoring it for easier use on Unraid and for the purpose for use with Nextcloud.**
 
-**Elasticsearch with instructions for installation on Unraid and then Nextcloud.** Elasticsearch version is 7.10.2
-        
+Elasticsearch version is 7.10.2
+## Installation
 **Directions below MUST be used in order to get Elasticsearch 5 and above working correctly.**
 
 **Directions:**
