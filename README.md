@@ -1,4 +1,5 @@
 # d8sychain/docker-elasticsearch
+## Installation
 **This Elasticsearch docker version is built from the official Elasticsearch docker with minimal changes tailoring it for easier use on Unraid and for the purpose for use with Nextcloud.**
 
 **Elasticsearch with instructions for installation on Unraid and then Nextcloud.** Elasticsearch version is 7.10.2
@@ -13,22 +14,24 @@
 #!/bin/bash
 sysctl -w vm.max_map_count=262144
 ```
-4. Set script schedule to **At Startup of Array**
-5. Restart
+4. Set script schedule to **At Startup of Array**.
+5. Add the docker container.
 
 **If you are using this for Nextcloud then continue...**
 
-6. Browse to the Admin UI in Nextcloud and config according https://github.com/nextcloud/fulltextsearch/wiki/Basic-Installation
-7. Browse to the Unraid docker tab, click the nextcloud docker icon then console or Open a SSH Terminal (like PuTTY) and login in your Unraid server and bash into the container ```docker exec -it nextcloud /bin/bash``` .
+*The **ingest-attachment** plugin is added by default at the 1st start of the container*
+
+6. Browse to the Admin UI in Nextcloud and config according https://github.com/nextcloud/fulltextsearch/wiki/Basic-Installation.
+7. Browse to the Unraid docker tab, click the nextcloud docker icon then **Console** or Open a SSH Terminal (like PuTTY) and login in to your Unraid server and bash into the container `docker exec -it nextcloud /bin/bash`.
 
 *If you are using linuxserver.io's Nextcloud docker  the user is **abc** otherwise the default is **www-data** and the path to **occ** is ```/config/www/nextcloud/```*
 
 8. Enter: 
 
-	* nextcloud default ```sudo -u www-data php ./occ fulltextsearch:index```
+	* nextcloud default ```sudo -u www-data php <path/to/nextcloud install>/occ fulltextsearch:index```
 
 	* linuxserver.io nextcloud docker ```sudo -u abc php /config/www/nextcloud/occ fulltextsearch:index```
-9. And wait... This can take a while depending on the number of files in you cloud
+9. And wait... This can take a while depending on the number of files in your nextcloud server.
 <br>
 <br>
 <br>
@@ -55,3 +58,10 @@ paused: true/false. If set to true, index will start paused.
 errors: reset Reset the errors
 
 `./occ fulltextsearch:index "{\"user\": \"cult\", \"providers\":[\"files\", \"test\"]}"`
+
+## Adding and removing plugins
+In the docker volume host path, the default is `/mnt/user/appdata/elasticsearch` contains file `my-plugins.txt`
+
+Edit this file, adding and/or removing needed plugins, and then restart the container.
+
+A built-in script will check this file at container start and compare it to the currently installed plugins and install and/or remove plugins accordingly.
